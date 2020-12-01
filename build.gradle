@@ -1,10 +1,16 @@
 buildscript {
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.1'
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force "com.android.support:support-v4:${android_support_version}"
     }
 }
 
