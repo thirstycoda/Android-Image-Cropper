@@ -189,6 +189,7 @@ public class CropImageActivity extends AppCompatActivity
   @Override
   @SuppressLint("NewApi")
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
 
     // handle result of pick image chooser
     if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE) {
@@ -205,8 +206,8 @@ public class CropImageActivity extends AppCompatActivity
         if (CropImage.isReadExternalStoragePermissionsRequired(this, mCropImageUri)) {
           // request permissions and handle the result in onRequestPermissionsResult()
           requestPermissions(
-              new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
-              CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
+                  new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                  CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
         } else {
           // no permissions required or already grunted, can start crop image activity
           mCropImageView.setImageUriAsync(mCropImageUri);
