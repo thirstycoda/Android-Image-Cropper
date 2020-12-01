@@ -12,9 +12,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {
-            url "https://jitpack.io"
-        }
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -26,4 +24,8 @@ ext {
     PUBLISH_ARTIFACT_ID = 'android-image-cropper'
     PUBLISH_VERSION = '2.8.1'
     // gradlew clean build generateRelease
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
