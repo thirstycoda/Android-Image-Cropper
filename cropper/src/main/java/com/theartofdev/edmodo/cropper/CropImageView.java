@@ -800,6 +800,10 @@ public class CropImageView extends FrameLayout {
       }
 
       croppedBitmap = BitmapUtils.resizeBitmap(croppedBitmap, reqWidth, reqHeight, options);
+
+      if (mCropOverlayView.getCropShape() == CropImageView.CropShape.OVAL) {
+        croppedBitmap = BitmapUtils.getCircularBitmap(croppedBitmap);
+      }
     }
 
     return croppedBitmap;

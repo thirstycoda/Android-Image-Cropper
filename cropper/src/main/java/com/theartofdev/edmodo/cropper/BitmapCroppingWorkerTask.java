@@ -218,7 +218,7 @@ final class BitmapCroppingWorkerTask
             BitmapUtils.resizeBitmap(bitmapSampled.bitmap, mReqWidth, mReqHeight, mReqSizeOptions);
 
         if (mCropImageViewReference.get().getCropShape() == CropImageView.CropShape.OVAL) {
-          bitmap = getCircularBitmap(bitmap);
+          bitmap = BitmapUtils.getCircularBitmap(bitmap);
         }
 
         if (mSaveUri == null) {
@@ -236,26 +236,6 @@ final class BitmapCroppingWorkerTask
     } catch (Exception e) {
       return new Result(e, mSaveUri != null);
     }
-  }
-
-  public static Bitmap getCircularBitmap(Bitmap square) {
-    if (square == null) return null;
-    Bitmap output = Bitmap.createBitmap(square.getWidth(), square.getHeight(), Bitmap.Config.ARGB_8888);
-
-    final Rect rect = new Rect(0, 0, square.getWidth(), square.getHeight());
-    Canvas canvas = new Canvas(output);
-
-    int halfWidth = square.getWidth() / 2;
-    int halfHeight = square.getHeight() / 2;
-
-    final Paint paint = new Paint();
-    paint.setAntiAlias(true);
-    paint.setFilterBitmap(true);
-
-    canvas.drawCircle(halfWidth, halfHeight, Math.min(halfWidth, halfHeight), paint);
-    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-    canvas.drawBitmap(square, rect, rect, paint);
-    return output;
   }
 
   /**

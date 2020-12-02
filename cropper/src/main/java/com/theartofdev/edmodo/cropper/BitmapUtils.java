@@ -17,7 +17,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
@@ -596,6 +600,26 @@ final class BitmapUtils {
           "Failed to load sampled bitmap: " + loadedImageUri + "\r\n" + e.getMessage(), e);
     }
     return new BitmapSampled(result, sampleSize);
+  }
+
+  public static Bitmap getCircularBitmap(Bitmap square) {
+    if (square == null) return null;
+    Bitmap output = Bitmap.createBitmap(square.getWidth(), square.getHeight(), Bitmap.Config.ARGB_8888);
+
+    final Rect rect = new Rect(0, 0, square.getWidth(), square.getHeight());
+    Canvas canvas = new Canvas(output);
+
+    int halfWidth = square.getWidth() / 2;
+    int halfHeight = square.getHeight() / 2;
+
+    final Paint paint = new Paint();
+    paint.setAntiAlias(true);
+    paint.setFilterBitmap(true);
+
+    canvas.drawCircle(halfWidth, halfHeight, Math.min(halfWidth, halfHeight), paint);
+    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+    canvas.drawBitmap(square, rect, rect, paint);
+    return output;
   }
 
   /** Decode image from uri using "inJustDecodeBounds" to get the image dimensions. */
